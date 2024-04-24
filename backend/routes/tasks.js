@@ -15,10 +15,10 @@ router.get('/:id', (req, res) => {
 
 // POST a new task
 router.post('/', async (req, res) => {
-    const {creator, title, description, priority, status, dueDate} = req.body
+    const {creator, title, description, priority, status, collaborators, dueDate} = req.body
 
     try{
-        const task = await Task.create({creator, title, description, priority, status, dueDate})
+        const task = await Task.create({creator, title, description, priority, status, collaborators,  dueDate})
         res.status(200).json(task)
     }catch (error) {
         res.status(400).json({error: error.message})
