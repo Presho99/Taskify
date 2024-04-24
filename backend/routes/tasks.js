@@ -1,4 +1,5 @@
 const express = require('express')
+const Task = require('../models/taskModel')
 const router = express.Router()
 
 
@@ -12,9 +13,17 @@ router.get('/:id', (req, res) => {
     res.json({message: "GET a single task"})
 })
 
-// POST a task
-router.post('/', (req, res) => {
-    res.json({message: "POST a new task"})
+// POST a new task
+router.post('/', async (req, res) => {
+    const {creator, title, description, priority, status, dueDate} = req.body
+
+    try{
+        const task = await Task.create({creator, title, description, priority, status, dueDate})
+        res.status(200).json(task)
+    }catch (error) {
+        res.status(400).json({error: error.message})
+    }
+   
 })
 
 // UPDATE a task
